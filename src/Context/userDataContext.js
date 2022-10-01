@@ -16,14 +16,13 @@ export const UserDataProvider = ({children}) => {
     
     //get data from api
     const getUserData = async () => {
-        
+        setLoading();
         const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/search/users?q=${text}`, {
             headers : {
                 Authorization : `${process.env.REACT_APP_GITHUB_TOKEN}`
             }
         });
         const {items} = await res.json();
-
         //dispatch accept a object with a type key and value to its dev-define string related to the state
         //and a payload to the data which you want to update
         //this dispatch work as an action in dev-define reducer function
@@ -36,6 +35,7 @@ export const UserDataProvider = ({children}) => {
 
     //get a single user
     const getUser = async (login) => {
+        setLoading();
         try {
             const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users/${login}`, {
                 headers : {
@@ -45,7 +45,7 @@ export const UserDataProvider = ({children}) => {
             const data = await res.json();
             dispatch({
                 type : "GET_USER",
-                payload : data
+                payload : data,
             })
         } catch (error) {
             window.location = '/notfound';
@@ -54,8 +54,12 @@ export const UserDataProvider = ({children}) => {
 
     //get user repos
     const getUserRepos = async (login) => {
+        const params = new URLSearchParams({
+            sort : "created",
+            per_page : 10
+        })
         try {
-            const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users/${login}/repos`, {
+            const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users/${login}/repos?${params}`, {
                 headers : {
                     Authorization : `${process.env.REACT_APP_GITHUB_TOKEN}`
                 }
@@ -74,6 +78,13 @@ export const UserDataProvider = ({children}) => {
     //clear data
     const clearData = () => {
         dispatch({type : "CLEAR_DATA"})
+    }
+
+    //set loading
+    const setLoading = () => {
+        dispatch({
+            type : "SET_LOADING"
+        })
     }
 
 

@@ -78,7 +78,7 @@ function User() {
                             <div className='stat'>
                                 <div className='stat-title text-md'>Website</div>
                                 <div className='stat-value text-lg'>
-                                    <a href={`https://${blog}`} target='_blank' rel='nofererrer'>{blog}</a>
+                                    <a href={`https://${blog}`} target='_blank' rel='noreferrer' >{blog}</a>
                                 </div>
                             </div>
                         )}
@@ -86,7 +86,7 @@ function User() {
                             <div className='stat'>
                                 <div className='stat-title text-md'>Twitter</div>
                                 <div className='stat-value text-lg'>
-                                    <a href={`https://twitter.com/${twitter_username}`} target='_blank' rel='nofererrer'>{twitter_username}</a>
+                                    <a href={`https://twitter.com/${twitter_username}`} target='_blank' rel='noreferrer'>{twitter_username}</a>
                                 </div>
                             </div>
                         )}
