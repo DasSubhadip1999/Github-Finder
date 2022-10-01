@@ -4,11 +4,13 @@ import Footer from './Components/UI_Design/Footer';
 import About from './Pages/About';
 import Home from './Pages/Home';
 import NotFound from './Pages/NotFound';
+import User from './Pages/User';
 //context
 import { UserDataProvider } from './Context/userDataContext';
 import { AlertProvider } from './Context/AlertContext';
 
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+
 
 
 
@@ -22,6 +24,7 @@ function App() {
             <main>
               <Routes>
                 <Route path='/about' element={<About />}></Route>
+                <Route path='/user/:login' element={<User />}></Route>
                 <Route path='/' element={<Home />}></Route>
                 <Route path='/notfound' element={<NotFound />}></Route>
                 <Route path='/*' element={<NotFound />}></Route>

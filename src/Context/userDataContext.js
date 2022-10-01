@@ -9,7 +9,7 @@ export const UserDataProvider = ({children}) => {
     const [text, setText] = useState('');
 
     //initial state of the data 
-    const initialState = {users : [], loading : false,}
+    const initialState = {users : [], user : {}, repos : [],  loading : false,}
     //use reducers accept a dev-define function and initial state
     //its gives a state and a function to update the state
     const [state, dispatch] = useReducer(githubReducer, initialState)
@@ -34,22 +34,62 @@ export const UserDataProvider = ({children}) => {
         setText("");
     }
 
+    //get a single user
+    const getUser = async (login) => {
+        try {
+            const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users/${login}`, {
+                headers : {
+                    Authorization : `${process.env.REACT_APP_GITHUB_TOKEN}`
+                }
+            });
+            const data = await res.json();
+            dispatch({
+                type : "GET_USER",
+                payload : data
+            })
+        } catch (error) {
+            window.location = '/notfound';
+        }
+    }
+
+    //get user repos
+    const getUserRepos = async (login) => {
+        try {
+            const res = await fetch(`${process.env.REACT_APP_GITHUB_URL}/users/${login}/repos`, {
+                headers : {
+                    Authorization : `${process.env.REACT_APP_GITHUB_TOKEN}`
+                }
+            });
+            const data = await res.json();
+            dispatch({
+                type : "GET_REPOS",
+                payload : data,
+            })
+        } catch (error) {
+            window.location = '/notfound';
+        }
+
+    }
+
     //clear data
     const clearData = () => {
         dispatch({type : "CLEAR_DATA"})
     }
 
 
-
     return (
       <UserDataContext.Provider value={
             {
                 users : state.users,
+                user : state.user,
                 loading : state.loading,
+                repos : state.repos,
                 getUserData,
                 setText,
                 text,
                 clearData,
+                getUser,
+                getUserRepos,
             }
         }
       >
