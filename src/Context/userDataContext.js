@@ -91,10 +91,7 @@ export const UserDataProvider = ({children}) => {
     return (
       <UserDataContext.Provider value={
             {
-                users : state.users,
-                user : state.user,
-                loading : state.loading,
-                repos : state.repos,
+               ...state,
                 getUserData,
                 setText,
                 text,
